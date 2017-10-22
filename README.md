@@ -36,9 +36,9 @@ Package can be installed via maven by adding the following to your pom.xml:
     public class MyListener implements SocketListener {
         @Override
         public void processSocketEvent(String name, byte[] data) {
-           short aShort = example.byteArrayToUInt16(new byte[] {data[0],reply[data[1]]});
-           byte[] stringByteArray = Arrays.copyOfRange(data,data[2],data[20]);
-					      String aString = example.byteArrayToString(stringByteArray);
+		short aShort = example.byteArrayToUInt16(new byte[] {data[0],reply[data[1]]});
+		byte[] stringByteArray = Arrays.copyOfRange(data,data[2],data[20]);
+		String aString = example.byteArrayToString(stringByteArray);
            ...
         }
     }
