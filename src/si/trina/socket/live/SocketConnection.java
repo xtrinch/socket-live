@@ -180,7 +180,7 @@ public class SocketConnection implements Runnable {
 		}
 	}
 	
-	public void addMachine(SocketListener machine) {
+	public void addListener(SocketListener machine) {
 		System.out.println("Adding machine to socket connection.");
 		this.listeners.add(machine);
 	}	
