@@ -30,8 +30,6 @@ public class SocketRead implements Runnable {
 					while(bytesRead < bytesToRead) {
 						int nBytes = this.socketConnection.inFromServer.read(header, bytesRead, bytesToRead-bytesRead);
 						if (nBytes < 0) {
-							//Thread.sleep(500);
-							//this.connect();
 							continue;
 						} else {
 							bytesRead += nBytes;
@@ -46,8 +44,6 @@ public class SocketRead implements Runnable {
 					while(bytesRead < bytesToRead) {
 						int nBytes = this.socketConnection.inFromServer.read(data, bytesRead, bytesToRead-bytesRead);
 						if (nBytes < 0) {
-							//Thread.sleep(500);
-							//this.connect();
 							continue;
 						} else {
 							bytesRead += nBytes;
@@ -57,7 +53,7 @@ public class SocketRead implements Runnable {
 					if (numBytes <= 1) {
 					} else {
 						for (SocketListener m: this.socketConnection.listeners) {
-							m.processSocketEvent(this.socketConnection.name, data);
+							m.processSocketEvent(data, this.socketConnection);
 						}
 					}
 					
@@ -65,13 +61,6 @@ public class SocketRead implements Runnable {
 				Thread.sleep(100);
 			}catch (Exception e) {
 				e.printStackTrace();
-
-				/*try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				this.connect();*/
 			}
 		}
 	}
