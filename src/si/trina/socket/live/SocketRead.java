@@ -24,8 +24,8 @@ public class SocketRead implements Runnable {
 			
 			try {
 				synchronized (this.socketConnection.fromServerQueueLock) {
-					byte[] header = new byte[6];
-					int bytesToRead=6;
+					byte[] header = new byte[4];
+					int bytesToRead=4;
 					int bytesRead=0;
 					while(bytesRead < bytesToRead) {
 						int nBytes = this.socketConnection.inFromServer.read(header, bytesRead, bytesToRead-bytesRead);
