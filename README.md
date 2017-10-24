@@ -1,3 +1,6 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/si.trina/socket-live/badge.svg)](https://maven-badges.herokuapp.com/maven-central/si.trina/socket-live)
+
+
 # socket-live
 
 Java library for TCP/IP socket communication. 
