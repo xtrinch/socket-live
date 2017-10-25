@@ -67,7 +67,7 @@ Note that read thread expects an integer (4 bytes) with byte length of message b
 
 **charsetName**
 
-String indicating which charset to use when encoding/decoding strings.
+String indicating which charset to use when encoding/decoding strings (Java Charset strings apply).
 
 **reconnectInterval**
 
