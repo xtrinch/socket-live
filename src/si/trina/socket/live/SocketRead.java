@@ -1,6 +1,13 @@
 package si.trina.socket.live;
 
+import java.net.SocketException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SocketRead implements Runnable {
+
+	final Logger logger = LoggerFactory.getLogger(SocketRead.class);
 
 	private SocketConnection socketConnection;
 
@@ -12,7 +19,9 @@ public class SocketRead implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			if (this.socketConnection.socket == null || this.socketConnection.socket.isConnected() == false) {
+			if (this.socketConnection.socket == null 
+					|| this.socketConnection.socket.isConnected() == false 
+					|| this.socketConnection.socket.isClosed() == true) {
 				try {
 					Thread.sleep(this.socketConnection.reconnectInterval);
 					continue;
@@ -58,7 +67,11 @@ public class SocketRead implements Runnable {
 					
 				}
 			}catch (Exception e) {
-				e.printStackTrace();
+				if (e instanceof SocketException) {
+					// force reconnect
+					logger.error("Socket disconnect triggered from read thread.");
+					this.socketConnection.clearSocket();
+				}
 			}
 			
 			try {

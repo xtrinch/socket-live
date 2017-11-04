@@ -1,8 +1,14 @@
 package si.trina.socket.live;
 
 import java.io.IOException;
+import java.net.SocketException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SocketWrite implements Runnable {
+
+	final Logger logger = LoggerFactory.getLogger(SocketWrite.class);
 
 	private SocketConnection socketConnection;
 	
@@ -30,18 +36,23 @@ public class SocketWrite implements Runnable {
 					// Send pending requests
 					synchronized (this.socketConnection.writerLock) {
 						try {
-							//System.out.println(Logger.getTimeStamp() +"Sending data to server in microtec write connection.");
 							byte[] qq = this.socketConnection.toServerQueue.pollFirst().toByteArray();
 							this.socketConnection.outToServer.write(qq);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						} catch (Exception e) {
+							if (e instanceof SocketException) {
+								// force reconnect
+								logger.error("Socket disconnect triggered from write thread.");
+								this.socketConnection.clearSocket();
+							}
+							
+							//e.printStackTrace();
 						}
 					}
 				} else {
 					//System.out.println(Logger.getTimeStamp() +"Queue is empty. Not sending anything.");
 				}
 			}
+			
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {

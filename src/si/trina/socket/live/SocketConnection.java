@@ -25,7 +25,7 @@ public class SocketConnection implements Runnable {
 	public LinkedList<ByteArrayOutputStream> toServerQueue;
 	public ArrayList<SocketListener> listeners;
 	public boolean connected = false;
-	public Object readerLock, writerLock, toServerQueueLock, fromServerQueueLock;
+	public Object socketObjectLock, readerLock, writerLock, toServerQueueLock, fromServerQueueLock;
 	public boolean connectionError = false;
 	public String charsetName = "UTF-8";
 	public long reconnectInterval = 1000;
@@ -45,6 +45,7 @@ public class SocketConnection implements Runnable {
 		this.writerLock = new Object();
 		this.toServerQueueLock = new Object();
 		this.fromServerQueueLock = new Object();
+		this.socketObjectLock = new Object();
 	}
 	
 	public int byteArrayToInt(byte[] b) {
@@ -150,9 +151,10 @@ public class SocketConnection implements Runnable {
 	private void connect() {
 		try {
 			// fix server hanging when it cannot connect to the socket
-			this.socket = new Socket();
-			this.socket.connect(new InetSocketAddress(this.ip, this.port), 200);
-
+			synchronized(this.socketObjectLock) {
+				this.socket = new Socket();
+				this.socket.connect(new InetSocketAddress(this.ip, this.port), 200);
+			}
 			synchronized (this.readerLock) {
 				this.inFromServer = socket.getInputStream();
 			}
@@ -205,7 +207,7 @@ public class SocketConnection implements Runnable {
 		}
 		
 		while (true) {
-			if (this.socket == null || this.socket.isConnected() == false || this.socket.isClosed()) {
+			if (this.socket == null || this.socket.isConnected() == false || this.socket.isClosed() == true) {
 				logger.error("Socket disconnected.");
 				this.connect();
 				try {
@@ -220,6 +222,12 @@ public class SocketConnection implements Runnable {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+
+	public void clearSocket() {
+		synchronized(this.socketObjectLock) {
+			this.socket = null;
 		}
 	}
 
