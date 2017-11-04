@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>si.trina</groupId>
   <artifactId>socket-live</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>socket-live</name>
   <description>Communication with s7 PLCs helper classes</description>
@@ -18,7 +18,7 @@
 	<connection>scm:git:git://github.com/xtrinch/socket-live.git</connection>
 	<developerConnection>scm:git:git@github.com:xtrinch/socket-live.git</developerConnection>
 	<url>http://github.com/xtrinch/socket-live</url>
-	<tag>socket-live-0.0.2</tag>
+	<tag>socket-live-0.0.1</tag>
   </scm>
   <developers>
 	<developer>
