@@ -1,3 +1,6 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/si.trina/socket-live/badge.svg)](https://maven-badges.herokuapp.com/maven-central/si.trina/socket-live)
+
+
 # socket-live
 
 Java library for TCP/IP socket communication. 
@@ -15,7 +18,7 @@ Package can be installed via maven by adding the following to your pom.xml:
     <dependency>
         <groupId>si.trina</groupId>
         <artifactId>socket-live</artifactId>
-        <version>coming-soon</version>
+        <version>0.0.1</version>
     </dependency>
     
 ## How to use
@@ -64,7 +67,7 @@ Note that read thread expects an integer (4 bytes) with byte length of message b
 
 **charsetName**
 
-String indicating which charset to use when encoding/decoding strings.
+String indicating which charset to use when encoding/decoding strings (Java Charset strings apply).
 
 **reconnectInterval**
 
