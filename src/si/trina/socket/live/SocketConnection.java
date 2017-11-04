@@ -9,10 +9,13 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SocketConnection implements Runnable {
+
+	final Logger logger = LoggerFactory.getLogger(SocketConnection.class);
 
 	public String name, ip;
 	public int port;
@@ -161,7 +164,7 @@ public class SocketConnection implements Runnable {
 			System.out.println("Socket connected " + this.name);
 		} catch (Exception e) {
 			//e.printStackTrace();
-			System.out.println("Cannot connect to socket " + this.name);
+			logger.error("Cannot connect to socket " + this.name);
 			this.connected = false;
 		}
 	}
@@ -181,13 +184,13 @@ public class SocketConnection implements Runnable {
 	}
 	
 	public void addListener(SocketListener machine) {
-		System.out.println("Adding machine to socket connection.");
+		logger.info("Adding machine to socket connection.");
 		this.listeners.add(machine);
 	}	
 	
 	@Override
 	public void run() {
-		System.out.println("Starting socket thread " + this.name);
+		logger.info("Starting socket thread " + this.name);
 		
 		this.connect();
 
@@ -202,7 +205,8 @@ public class SocketConnection implements Runnable {
 		}
 		
 		while (true) {
-			if (this.socket == null || this.socket.isConnected() == false) {
+			if (this.socket == null || this.socket.isConnected() == false || this.socket.isClosed()) {
+				logger.error("Socket disconnected.");
 				this.connect();
 				try {
 					Thread.sleep(this.reconnectInterval);

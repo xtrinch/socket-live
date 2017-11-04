@@ -17,7 +17,6 @@ public class SocketRead implements Runnable {
 					Thread.sleep(this.socketConnection.reconnectInterval);
 					continue;
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -58,9 +57,14 @@ public class SocketRead implements Runnable {
 					}
 					
 				}
-				Thread.sleep(100);
 			}catch (Exception e) {
 				e.printStackTrace();
+			}
+			
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
