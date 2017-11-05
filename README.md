@@ -18,7 +18,7 @@ Package can be installed via maven by adding the following to your pom.xml:
     <dependency>
         <groupId>si.trina</groupId>
         <artifactId>socket-live</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </dependency>
     
 ## How to use
