@@ -166,7 +166,7 @@ public class SocketConnection implements Runnable {
 			System.out.println("Socket connected " + this.name);
 		} catch (Exception e) {
 			//e.printStackTrace();
-			logger.error("Cannot connect to socket " + this.name);
+			logger.error("Cannot connect to socket " + this.name + ": " + e.getMessage());
 			this.connected = false;
 		}
 	}
@@ -180,7 +180,6 @@ public class SocketConnection implements Runnable {
 			e.printStackTrace();
 		}
 		synchronized (this.toServerQueueLock) {
-			//System.out.println(Logger.getTimeStamp() +"Adding stuff to send to write queue.");
 			this.toServerQueue.add(breq);
 		}
 	}
@@ -227,6 +226,11 @@ public class SocketConnection implements Runnable {
 
 	public void clearSocket() {
 		synchronized(this.socketObjectLock) {
+			try {
+				this.socket.close();
+			} catch (IOException e) {
+				logger.error("Cannot close socket " + this.name + ": " + e.getMessage());
+			}
 			this.socket = null;
 		}
 	}
