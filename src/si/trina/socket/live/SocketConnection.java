@@ -153,6 +153,7 @@ public class SocketConnection implements Runnable {
 			// fix server hanging when it cannot connect to the socket
 			synchronized(this.socketObjectLock) {
 				this.socket = new Socket();
+				// TODO: add the option to bind the socket to specific local port
 				this.socket.connect(new InetSocketAddress(this.ip, this.port), 200);
 			}
 			synchronized (this.readerLock) {
