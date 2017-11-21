@@ -84,3 +84,7 @@ In case only writing to socket is required, this boolean can be set to false.
 **writeEnabled**
 
 In case only reading from socket is required, this boolean can be set to false.
+
+## Logging
+
+All logging with various priorities inside the library is done with slf4j. Meaning, you need a logger binding (for example slf4j-simple) to see logs.
