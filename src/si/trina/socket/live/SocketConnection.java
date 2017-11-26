@@ -226,12 +226,29 @@ public class SocketConnection implements Runnable {
 	}
 
 	public void clearSocket() {
+		logger.info("Clearing socket " + this.name + ": ");
+
 		synchronized(this.socketObjectLock) {
 			try {
-				logger.info("Clearing socket " + this.name + ": ");
-				this.outToServer.close();
-				this.inFromServer.close();
-				this.socket.close();
+				if (this.outToServer != null) {
+					this.outToServer.close();
+				}
+			} catch (IOException e) {
+				logger.error("Cannot close output stream " + this.name + ": " + e.getMessage());
+			}
+			
+			try {
+				if (this.inFromServer != null) {
+					this.inFromServer.close();
+				}
+			} catch (IOException e) {
+				logger.error("Cannot close input stream " + this.name + ": " + e.getMessage());
+			}
+			
+			try {
+				if (this.socket != null) {
+					this.socket.close();
+				}
 			} catch (IOException e) {
 				logger.error("Cannot close socket " + this.name + ": " + e.getMessage());
 			}
