@@ -228,11 +228,16 @@ public class SocketConnection implements Runnable {
 	public void clearSocket() {
 		synchronized(this.socketObjectLock) {
 			try {
+				logger.info("Clearing socket " + this.name + ": ");
+				this.outToServer.close();
+				this.inFromServer.close();
 				this.socket.close();
 			} catch (IOException e) {
 				logger.error("Cannot close socket " + this.name + ": " + e.getMessage());
 			}
 			this.socket = null;
+			this.inFromServer = null;
+			this.outToServer = null;
 		}
 	}
 
